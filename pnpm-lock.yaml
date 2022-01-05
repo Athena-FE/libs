@@ -2,9 +2,11 @@ lockfileVersion: 5.3
 
 specifiers:
   axios: ^0.24.0
+  typescript: ^4.5.4
 
 dependencies:
   axios: 0.24.0
+  typescript: 4.5.4
 
 packages:
 
@@ -24,4 +26,10 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
+
+  /typescript/4.5.4:
+    resolution: {integrity: sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
     dev: false
