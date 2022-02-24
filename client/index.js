@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import * as queryString from 'query-string';
 
 class http {
     instance = null
@@ -17,55 +17,46 @@ class http {
 
     requestInterceptors() {
         this.instance.interceptors.request.use(
-            function (config) {
-                // Do something before request is sent
+            function(config) {
                 return config;
             },
-            function (error) {
-                // Do something with request error
+            function(error) {
                 return Promise.reject(error);
             });
     }
 
     responseInterceptors() {
         this.instance.interceptors.response.use(
-            function (response) {
+            function(response) {
                 // Any status code that lie within the range of 2xx cause this function to trigger
                 // Do something with response data
                 return response.data;
             },
-            function (error) {
-                // Any status codes that falls outside the range of 2xx cause this function to trigger
-                // Do something with response error
+            function(error) {
                 return Promise.reject(error);
             });
     }
 
-    get(url, params, config) {
-        return this.instance.get(url, {
-            params: params,
-            ...(config ?? {}),
+    get(url, params = {}, config = {}) {
+        const queryUrl = queryString.stringifyUrl({
+            url: url,
+            query: params
         });
+        return this.instance.get(queryUrl, config);
     }
-    post(url, params, config) {
-        return this.instance.post(url, {
-            data: params,
-            ...(config ?? {}),
-        });
+    post(url, params = {}, config = {}) {
+        return this.instance.post(url, params, config);
     }
     put(url, params, config) {
-        return this.instance.put(url, {
-            data: params,
-            ...(config ?? {}),
-        })
+        return this.instance.put(url, params, config);
     }
     delete(url, params, config) {
-        return this.instance.put(url, {
-            data: params,
-            ...(config ?? {}),
-        })
+        return this.instance.put(url, params, config);
     }
 }
 
-export default http;
+const client = new http({
+    baseURL: "/api"
+});
 
+export default client;

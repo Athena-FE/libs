@@ -1,10 +1,10 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-
+import * as queryString from 'query-string';
 
 class http {
   instance: AxiosInstance
 
-  constructor(props: AxiosRequestConfig) {
+  constructor(props?: AxiosRequestConfig) {
     this.instance = axios.create(props);
     this.requestInterceptors();
     this.responseInterceptors();
@@ -35,36 +35,27 @@ class http {
         return response.data;
       },
       function (error: AxiosError) {
-        // Any status codes that falls outside the range of 2xx cause this function to trigger
-        // Do something with response error
         return Promise.reject(error);
       });
   }
 
-  get<V>(url: string, params?: any, config?: AxiosRequestConfig) {
-    return this.instance.get<V>(url, {
-      params: params,
-      ...(config ?? {}),
-    });
+  get<V = undefined>(url: string, params?: any, config?: AxiosRequestConfig) {
+    const queryUrl = queryString.stringifyUrl({url: url, query: params});
+    return this.instance.get<V, V, AxiosRequestConfig>(queryUrl, config);
   }
-  post<V>(url: string, params: any, config?: AxiosRequestConfig) {
-    return this.instance.post<V>(url, {
-      data: params,
-      ...(config ?? {}),
-    });
+  post<V = undefined>(url: string, params: any, config?: AxiosRequestConfig) {
+    return this.instance.post<V, V, AxiosRequestConfig>(url, params, config);
   }
-  put<V>(url: string, params: any, config?: AxiosRequestConfig) {
-    return this.instance.put<V>(url, {
-      data: params,
-      ...(config ?? {}),
-    })
+  put<V = undefined>(url: string, params: any, config?: AxiosRequestConfig) {
+    return this.instance.put<V, V, AxiosRequestConfig>(url, params, config);
   }
-  delete<V>(url: string, params: any, config?: AxiosRequestConfig) {
-    return this.instance.put<V>(url, {
-      data: params,
-      ...(config ?? {}),
-    })
+  delete<V = undefined>(url: string, params: any, config?: AxiosRequestConfig) {
+    return this.instance.put<V, V, AxiosRequestConfig>(url, params, config);
   }
 }
 
-export default http;
+const client = new http({
+  baseURL: "/api"
+});
+
+export default client;
