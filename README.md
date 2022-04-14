@@ -12,7 +12,7 @@
 
 ### Axios请求封装
 
-> 路径 `/client/index`
+> 路径 `/client`
 
 #### 主要特点
 
@@ -21,3 +21,14 @@
 3. 支持用`cancelToken`进行请求处理
 4. 支持对于各个不同的请求进行拦截和自定义
 5. 支持`js`和`ts`两个版本
+
+
+### Storage封装
+
+> 路径 `/storage`
+
+#### 主要特点
+
+1. 采用`class`写法避免重复生成实例和低利用率
+2. 支持使用前缀
+3. 支持`sessionStorage`和`localStorage`
